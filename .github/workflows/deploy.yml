@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push: # push 时触发ci
-    branches: [main] # 作用于main分支
+    branches: [master] # 作用于main分支
   # pull_request:
   #   branches: [main]
 
