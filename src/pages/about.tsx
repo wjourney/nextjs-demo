@@ -1,7 +1,7 @@
 import React from 'react'
 
 function About() {
-  return <div>Abou2t</div>
+  return <div>Abou2222t</div>
 }
 
 export default About
