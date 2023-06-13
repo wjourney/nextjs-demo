@@ -20,9 +20,9 @@ jobs:
         run: |
           echo ${{ secrets.ALIYUN_DOCKER_PASSWORD }} | docker login registry.cn-hangzhou.aliyuncs.com --username ${{ secrets.ALIYUN_DOCKER_USERNAME }} --password-stdin
 
-          docker image build -t myblog:latest .
-          docker tag myblog registry.cn-hangzhou.aliyuncs.com/test-blog/myblog:latest
-          docker push registry.cn-hangzhou.aliyuncs.com/test-blog/myblog:latest
+          docker image build -t nextjsDemo:latest .
+          docker tag nextjsDemo registry.cn-hangzhou.aliyuncs.com/test-blog/nextjsDemo:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/test-blog/nextjsDemo:latest
           docker logout
       # 登录远程服务器，拉取镜像，制作并重启容器
       # https://github.com/marketplace/actions/remote-ssh-commands
@@ -34,20 +34,20 @@ jobs:
             echo -e "1.docker login start==>"
             echo ${{ secrets.ALIYUN_DOCKER_PASSWORD }} | docker login registry.cn-hangzhou.aliyuncs.com --username ${{ secrets.ALIYUN_DOCKER_USERNAME }} --password-stdin
 
-            echo -e "2.docker stop myblog container==>"
-            docker container stop myblog
+            echo -e "2.docker stop nextjsDemo container==>"
+            docker container stop nextjsDemo
 
             echo -e "3.docker conatainer rm==>"
-            docker container rm myblog
+            docker container rm nextjsDemo
 
             echo -e "4.docker image rm==>"
-            docker image rm registry.cn-hangzhou.aliyuncs.com/test-blog/myblog:latest
+            docker image rm registry.cn-hangzhou.aliyuncs.com/test-blog/nextjsDemo:latest
 
             echo -e "5.docker pull==>"
-            docker pull registry.cn-hangzhou.aliyuncs.com/test-blog/myblog:latest
+            docker pull registry.cn-hangzhou.aliyuncs.com/test-blog/nextjsDemo:latest
 
             echo -e "6.docker container create and start==>"
-            docker container run -d -p 80:3000 --name myblog registry.cn-hangzhou.aliyuncs.com/test-blog/myblog:latest
+            docker container run -d -p 80:3000 --name nextjsDemo registry.cn-hangzhou.aliyuncs.com/test-blog/nextjsDemo:latest
 
             echo -e "7.docker logout==>"
             docker logout
