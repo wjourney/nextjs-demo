@@ -21,36 +21,13 @@ jobs:
           docker login --username=wjourney --password=wenwen0815
           
           docker image build -t nextjs-demo:latest .
-          docker tag nextjs-demo registry.cn-hangzhou.aliyuncs.com/test-blog/nextjs-demo:latest
-          docker push registry.cn-hangzhou.aliyuncs.com/test-blog/nextjs-demo:latest
-          docker logout
+          docker tag next-demo:latest wjourney/next-demo:latest 
+          docker push wjourney/next-demo
       # 登录远程服务器，拉取镜像，制作并重启容器
       # https://github.com/marketplace/actions/remote-ssh-commands
       - name: ssh remote deploy
         uses: fifsky/ssh-action@master
         with:
           command: |
-            cd /
-            echo -e "1.docker login start==>"
-            docker login --username=${{ secrets.ALIYUN_DOCKER_USERNAME }} --password=${{ secrets.ALIYUN_DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-
-            echo -e "2.docker stop nextjs-demo container==>"
-            docker container stop nextjs-demo
-
-            echo -e "3.docker conatainer rm==>"
-            docker container rm nextjs-demo
-
-            echo -e "4.docker image rm==>"
-            docker image rm registry.cn-hangzhou.aliyuncs.com/test-blog/nextjs-demo:latest
-
-            echo -e "5.docker pull==>"
-            docker pull registry.cn-hangzhou.aliyuncs.com/test-blog/nextjs-demo:latest
-
-            echo -e "6.docker container create and start==>"
-            docker container run -d -p 80:3000 --name nextjs-demo registry.cn-hangzhou.aliyuncs.com/test-blog/nextjs-demo:latest
-
-            echo -e "7.docker logout==>"
-            docker logout
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USER }}
-          pass: ${{ secrets.PASSWORD }}
+            docker pull wjourney/next-demo:latest
+            docker run -p 3005:3005 wjourney/next-demo:latest
