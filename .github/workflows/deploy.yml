@@ -21,13 +21,13 @@ jobs:
           docker login --username=wjourney --password=wenwen0815
           
           docker image build -t nextjs-demo:latest .
-          docker tag next-demo:latest wjourney/next-demo:latest 
-          docker push wjourney/next-demo
+          docker tag nextjs-demo:latest wjourney/nextjs-demo:latest 
+          docker push wjourney/nextjs-demo
       # 登录远程服务器，拉取镜像，制作并重启容器
       # https://github.com/marketplace/actions/remote-ssh-commands
-      - name: ssh remote deploy
+      - name: remote deploy
         uses: fifsky/ssh-action@master
         with:
           command: |
-            docker pull wjourney/next-demo:latest
-            docker run -p 3005:3005 wjourney/next-demo:latest
+            docker pull wjourneynextjs-demo:latest
+            docker run -p 3005:3005 wjourney/nextjs-demo:latest
