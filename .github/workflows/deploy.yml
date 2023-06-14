@@ -34,4 +34,4 @@ jobs:
             docker rm actions
             docker rmi wjourney/next-demo:latest
             docker pull wjourney/next-demo:latest
-            docker run -d -p 3005:80 --name actions wjourney/next-demo:latest
+            docker run -d -p 3005:3005 --name actions wjourney/next-demo:latest
