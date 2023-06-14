@@ -32,6 +32,6 @@ jobs:
           script: |
             docker stop actions
             docker rm actions
-            docker rmi mengqiuleo/actions-image:latest
-            docker pull mengqiuleo/actions-image:latest
-            docker run -d -p 3005:80 --name actions mengqiuleo/actions-image:latest  
+            docker rmi wjourney/next-demo:latest
+            docker pull wjourney/next-demo:latest
+            docker run -d -p 3005:80 --name actions wjourney/next-demo:latest
