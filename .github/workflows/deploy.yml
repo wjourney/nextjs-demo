@@ -4,7 +4,6 @@ on:
   push: # push 时触发ci
     branches: [master] # 作用于master分支
 
-    
 # 任务
 jobs:  
   test:
@@ -16,7 +15,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 19.8.1
+          node-version: 12
       - name: 打包镜像, 上传 Docker Hub
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
