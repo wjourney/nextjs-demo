@@ -1,27 +1,37 @@
-name: Docker Image CI
+name: docerker deploy CI/CD
 
 on:
   push: # push 时触发ci
     branches: [master] # 作用于master分支
 
-jobs:
-  build-and-deploy:
-    # 定义job运行环境，使用linux环境
+# 任务
+jobs:  
+  test:
+    # 运行的环境
     runs-on: ubuntu-latest
-
+    # 步骤
     steps:
-      # 拉取master分支代码
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # 制作docker镜像并推送到阿里云容器镜像服务
-      - name: build, push and deploy docker image
+      - uses: actions/checkout@v2 # git pull
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 19.8.1
+      - name: 打包镜像, 上传 Docker Hub
         run: |
-          docker version
-          docker login --username=wjourney --password=wenwen0815
-          
-          docker image build -t nextjs-demo:latest .
-          docker tag nextjs-demo:latest wjourney/nextjs-demo:latest 
-          docker push wjourney/nextjs-demo
-          docker pull wjourney/nextjs-demo:latest
-          docker run -p 3006:3006 wjourney/nextjs-demo:latest
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t actions:latest  .
+          docker tag actions:latest wjourney/next-demo:latest
+          docker push wjourney/next-demo:latest
+
+      - name: 登录服务器, 执行脚本
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}   
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker stop actions
+            docker rm actions
+            docker rmi mengqiuleo/actions-image:latest
+            docker pull mengqiuleo/actions-image:latest
+            docker run -d -p 3005:80 --name actions mengqiuleo/actions-image:latest  
