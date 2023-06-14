@@ -32,9 +32,9 @@ COPY --from=builder /app/package.json ./package.json
 
 USER nextjs
 
-EXPOSE 3006
+EXPOSE 3005
 
-ENV PORT 3006
+ENV PORT 3005
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

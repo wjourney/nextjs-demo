@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       # 制作docker镜像并推送到阿里云容器镜像服务
-      - name: build and push docker image
+      - name: build, push and deploy docker image
         run: |
           docker version
           docker login --username=wjourney --password=wenwen0815
